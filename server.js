@@ -21,6 +21,20 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('famous-amos-development', 'aakashsudhakar', process.env.SQLPASS, {
+  dialect: 'postgres'
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride('_method'))
 
