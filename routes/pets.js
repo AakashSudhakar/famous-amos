@@ -1,46 +1,95 @@
-const express = require('express');
-const router = express.Router();
-
-let pets = require('../json/pets')
-let comments = require('../json/comments')
+/* ================================================================================================= */ 
+/* =================================== INITIALIZERS/DECLARATIONS =================================== */
+/* ================================================================================================= */
 
 
-// INDEX
+const express = require('express');                   // Requires Express.js
+const router = express.Router();                      // Initializes an Express router
+
+const Pet = require('../db/models').Pet;              // Requires Pet model
+const Comment = require('../db/models').Comment;      // Requires Comment model
+
+
+/* ================================================================================================= */ 
+/* ========================================= RESTFUL ROUTES ======================================== */
+/* ================================================================================================= */
+
+// INDEX (Sequelize)
 router.get('/', (req, res) => {
-  res.send(pets);
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.send(pets);
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
-// NEW
+// NEW (Sequelize)
 router.get('/new', (req, res) => {
-  res.render('pets-new');
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.render('pets-new');
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
-// SHOW
+// SHOW (Sequelize)
 router.get('/:index', (req, res) => {
-    
-  res.render('pets-show', { pet: pets[req.params.index], comments: comments });
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.render('pets-show', { pet: pets[req.params.index], comments });
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
-// CREATE
-router.post('/', (req, res) => {
-    pets.unshift(req.body);
-
+// CREATE (Sequelize)
+router.get('/', (req, res) => {
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    Pet.unshift(req.body);
     res.redirect('/');
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
-// EDIT
+// EDIT (Sequelize)
 router.get('/:index/edit', (req, res) => {
-  res.render('pets-edit', { pet: pets[req.params.index]});
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.render('pets-edit', { pet: pets[req.params.index]});
+  }).catch((err) => {
+    console.error(err);
+  })
+})
+
+// UPDATE (Sequelize)
+router.get('/:index/edit', (req, res) => {
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.redirect(`/pets/${req.params.index}`);
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
-// UPDATE
-router.put('/:index', (req, res) => {
-  res.redirect(`/pets/${req.params.index}`)
-});
-
-// DESTROY
+// DESTROY (Sequelize)
 router.delete('/:index', (req, res) => {
-  res.redirect('/');
+  Pet.findAll({
+    include: [ models.Pet ]
+  }).then((req, res) => {
+    res.redirect('/');
+  }).catch((err) => {
+    console.error(err);
+  });
 });
 
 

@@ -1,7 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Pet = sequelize.define('Pet', {
-    id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     species: DataTypes.STRING,
     birthday: DataTypes.STRING,
