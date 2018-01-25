@@ -17,7 +17,7 @@ const Comment = require('../db/models').Comment;      // Requires Comment model
 // INDEX (Sequelize)
 router.get('/', (req, res) => {
   Pet.findAll({
-    include: [ models.Pet ]
+    include: [ Pet ]
   }).then((req, res) => {
     res.send(pets);
   }).catch((err) => {
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 // NEW (Sequelize)
 router.get('/new', (req, res) => {
   Pet.findAll({
-    include: [ models.Pet ]
+    include: [ Pet ]
   }).then((req, res) => {
     res.render('pets-new');
   }).catch((err) => {
@@ -38,9 +38,9 @@ router.get('/new', (req, res) => {
 
 // SHOW (Sequelize)
 router.get('/:index', (req, res) => {
-  Pet.findAll({
-    include: [ models.Pet ]
-  }).then((req, res) => {
+  Pet
+    .findAll()
+    .then((req, res) => {
     res.render('pets-show', { pet: pets[req.params.index], comments });
   }).catch((err) => {
     console.error(err);
@@ -50,7 +50,7 @@ router.get('/:index', (req, res) => {
 // CREATE (Sequelize)
 router.get('/', (req, res) => {
   Pet.findAll({
-    include: [ models.Pet ]
+    include: [ Pet ]
   }).then((req, res) => {
     Pet.unshift(req.body);
     res.redirect('/');
@@ -62,7 +62,7 @@ router.get('/', (req, res) => {
 // EDIT (Sequelize)
 router.get('/:index/edit', (req, res) => {
   Pet.findAll({
-    include: [ models.Pet ]
+    include: [ Pet ]
   }).then((req, res) => {
     res.render('pets-edit', { pet: pets[req.params.index]});
   }).catch((err) => {
@@ -72,8 +72,9 @@ router.get('/:index/edit', (req, res) => {
 
 // UPDATE (Sequelize)
 router.get('/:index/edit', (req, res) => {
-  Pet.findAll({
-    include: [ models.Pet ]
+  Pet
+    .findAll({
+    include: [ Pet ]
   }).then((req, res) => {
     res.redirect(`/pets/${req.params.index}`);
   }).catch((err) => {
@@ -81,14 +82,16 @@ router.get('/:index/edit', (req, res) => {
   });
 });
 
+// TODO - Look into more individual deletes
 // DESTROY (Sequelize)
 router.delete('/:index', (req, res) => {
-  Pet.findAll({
-    include: [ models.Pet ]
-  }).then((req, res) => {
-    res.redirect('/');
-  }).catch((err) => {
-    console.error(err);
+  Pet
+    .destroy({ where: { id: req.params.index } })
+    .then(() => {
+      res.redirect('/');
+    })
+    .catch((err) => {
+      console.error(err);
   });
 });
 
