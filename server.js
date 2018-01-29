@@ -9,6 +9,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override')
+const flash = require('express-flash');
+const session = require('express-session');
 
 const index = require('./routes/index');
 const pets = require('./routes/pets');
@@ -20,6 +22,10 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Setup flash with session
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('famous-amos-development', 'aakashsudhakar', process.env.SQLPASS, {
