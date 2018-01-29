@@ -14,38 +14,24 @@ const Comment = require('../db/models').Comment;      // Requires Comment model
 /* ========================================= RESTFUL ROUTES ======================================== */
 /* ================================================================================================= */
 
-// INDEX (Sequelize)
-router.get('/', (req, res) => {
-  Pet.findAll({
-    include: [ Pet ]
-  }).then((req, res) => {
-    res.send(pets);
-  }).catch((err) => {
-    console.error(err);
-  });
-});
-
 // NEW (Sequelize)
 router.get('/new', (req, res) => {
-  Pet.findAll({
-    include: [ Pet ]
-  }).then((req, res) => {
-    res.render('pets-new');
-  }).catch((err) => {
-    console.error(err);
-  });
+  res.render('pets-new');
 });
 
 // SHOW (Sequelize)
-router.get('/:index', (req, res) => {
+router.get('/:id', (req, res) => {
   Pet
-    .findAll()
-    .then((req, res) => {
-    res.render('pets-show', { pet: pets[req.params.index], comments });
-  }).catch((err) => {
-    console.error(err);
-  });
+    .findById(req.param.id).then(pet => {
+      res.render('pets-show', { pet: pets[req.params.index], comments });
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
+
+// ------- FIX BELOW ROUTES FOR SPECIFIC ROUTE COMMANDS !!!!!!
+
 
 // CREATE (Sequelize)
 router.get('/', (req, res) => {

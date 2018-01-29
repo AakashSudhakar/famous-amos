@@ -1,4 +1,7 @@
 'use strict';
+
+const Pets = require("../../routes/pets");
+
 module.exports = (sequelize, DataTypes) => {
   var Pet = sequelize.define('Pet', {
     name: DataTypes.STRING,
@@ -11,9 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        // associate with comments
       }
     }
   });
+
   return Pet;
 };

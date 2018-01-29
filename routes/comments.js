@@ -17,6 +17,4 @@ router.delete('/:index', (req, res) => {
   res.redirect(`/pets/${req.params.id}`);
 });
 
-
-
 module.exports = router;

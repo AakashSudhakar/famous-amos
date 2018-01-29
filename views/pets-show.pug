@@ -16,7 +16,7 @@ block content
             
             hr
             small.text-muted Comments for #{pet.name}
-            form(action="/pets/" + pet.id + "/comments" method="POST")
+            form(action=`/pets/${pet.id}/comments` method="POST")
                 .form-group
                     textarea.form-control(name="body")
                 .text-right
