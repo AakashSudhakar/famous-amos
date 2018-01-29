@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
   res.render('pets-index', { pets: pets });
 });
 
-router.get('/', (req, res) => {
+// pagination
+router.get('/:page', (req, res) => {
   let limit = 50;   // number of records per page
   let offset = 0;
 
