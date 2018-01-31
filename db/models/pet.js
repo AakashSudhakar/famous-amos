@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: function(models) {
-        // associate with comments
+        Pet.hasMany(models.Comment);
+        sequelize.sync;
       }
     }
   });
-
   return Pet;
 };

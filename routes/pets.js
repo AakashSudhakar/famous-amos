@@ -3,11 +3,11 @@
 /* ================================================================================================= */
 
 
-const express = require('express');                   // Requires Express.js
-const router = express.Router();                      // Initializes an Express router
+const express = require('express');                     // Requires Express.js
+const router = express.Router();                        // Initializes an Express router
 
-const Pet = require('../db/models').Pet;              // Requires Pet model
-const Comment = require('../db/models').Comment;      // Requires Comment model
+// const Pet = require('../db/models').Pet;             // Requires Pet model
+const Comment = require('../db/models').Comment;        // Requires Comment model
 
 
 /* ================================================================================================= */ 
@@ -22,50 +22,59 @@ router.get('/new', (req, res) => {
 // SHOW (Sequelize)
 router.get('/:id', (req, res) => {
   Pet
-    .findById(req.param.id).then(pet => {
-      res.render('pets-show', { pet: pets[req.params.index], comments });
+    .findById(req.param.id)
+    .then(response => {
+      if (response.status === 200) {
+        res.render('pets-show', { response: pets[req.params.index] });
+      }
     })
     .catch(err => {
-      console.error(err);
+      if (err) { res.json(err); }
     });
 });
 
-// ------- FIX BELOW ROUTES FOR SPECIFIC ROUTE COMMANDS !!!!!!
-
+// UPDATE (Sequelize)
+router.put('/:id', (req, res) => {
+  Pet
+    .update(req.body, {
+      where: { id: req.params.id }
+    }).then(response => {
+      if (response.status === 200) {
+        res.status(200);
+      }
+    }).catch((err) => {
+      if (err) {
+        res.json(err);
+      }
+    });
+});
 
 // CREATE (Sequelize)
 router.get('/', (req, res) => {
-  Pet.findAll({
-    include: [ Pet ]
-  }).then((req, res) => {
-    Pet.unshift(req.body);
-    res.redirect('/');
-  }).catch((err) => {
-    console.error(err);
-  });
+  Pet
+    .findById(req.body)
+    .create(req.body)
+    .then(response => {
+      if (response.status === 200) {
+        res.redirect('/');
+      }
+    }).catch(err => {
+      if (err) {
+        res.json(err);
+      }
+    });
 });
 
 // EDIT (Sequelize)
-router.get('/:index/edit', (req, res) => {
-  Pet.findAll({
-    include: [ Pet ]
+router.get('/:id/edit', (req, res) => {
+  Pet
+    .findAll({
+      include: [ Pet ]
   }).then((req, res) => {
     res.render('pets-edit', { pet: pets[req.params.index]});
   }).catch((err) => {
     console.error(err);
   })
-})
-
-// UPDATE (Sequelize)
-router.get('/:index/edit', (req, res) => {
-  Pet
-    .findAll({
-    include: [ Pet ]
-  }).then((req, res) => {
-    res.redirect(`/pets/${req.params.index}`);
-  }).catch((err) => {
-    console.error(err);
-  });
 });
 
 // TODO - Look into more individual deletes
