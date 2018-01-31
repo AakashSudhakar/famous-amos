@@ -3,18 +3,19 @@ const router = express.Router();
 
 // let pets = require('../json/pets')
 
-const Pet = require('../db/models').Pet;              // Requires Pet model
+const Pet = require('../db/models').Pets;              // Requires Pet model
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  
-  Pet.findAll().then((pets) => {
-    res.render('pets-index', { pets: pets });
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
+  console.log("\n\n\nHELLO I'M HERE!\n\n\n");
+  Pet
+    .findAll()
+    .then(pets => {
+      res.render('pets-index', { pets: pets });
+    })
+    .catch(err => {
+      if (err) { res.json(err) }
+    });
 });
 
 // pagination
