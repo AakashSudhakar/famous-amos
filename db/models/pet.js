@@ -1,9 +1,7 @@
 'use strict';
 
-const Pets = require("../../routes/pets");
-
 module.exports = (sequelize, DataTypes) => {
-  var Pets = sequelize.define('Pets', {
+  return sequelize.define('Pet', {
     name: DataTypes.STRING,
     species: DataTypes.STRING,
     birthday: DataTypes.STRING,
@@ -14,10 +12,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: function(models) {
-        Pets.hasMany(models.Comment);
+        // Pet.hasMany(models.Comment);
         sequelize.sync;
       }
     }
   });
-  return Pets;
 };
