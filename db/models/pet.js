@@ -1,7 +1,9 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Pet', {
+const sequelize = require("sequelize");
+
+module.exports = function(sequelize, DataTypes) {
+  var Pet = sequelize.define('Pet', {
     name: DataTypes.STRING,
     species: DataTypes.STRING,
     birthday: DataTypes.STRING,
@@ -17,4 +19,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  return Pet;
 };

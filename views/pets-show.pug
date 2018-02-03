@@ -21,9 +21,9 @@ block content
                     textarea.form-control(name="body")
                 .text-right
                     button(type="submit").btn.btn-primary Save Comment
-            each c in comments
-                p=c.body
-                small.text-right
-                    form(action=`/pets/${pet.id}/comments/0?_method=DELETE` method="POST")
-                        .text-right
-                            button(type="submit").text-danger Remove
+            //- each c in comments
+            //-     p=c.body
+            //-     small.text-right
+            //-         form(action=`/pets/${pet.id}/comments/0?_method=DELETE` method="POST")
+            //-             .text-right
+            //-                 button(type="submit").text-danger Remove

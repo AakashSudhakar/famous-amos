@@ -1,25 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-// let pets = require('../json/pets')
-
-const sequelize = require('sequelize');
-const db = {};
-const Pet = require('../db/models/pet')(sequelize, db);              // Requires Pet model
+const Pet = require('../db/models').Pet;
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  console.log("\n\n\nHELLO I'M HERE!\n\n\n");
-  console.log(Pet);
-
-  Pet
-    .findAll({raw: true})
-    .then(pets => {
-      if (pets.status === 200) { res.render('pets-index', { pets: pets }) }
-    })
-    .catch(err => {
-      if (err) { res.json(err) }
-    });
+  Pet.findAll().then(pets => {
+    res.render('pets-index', { pets: pets })
+  })
+  .catch(err => {
+    if (err) { console.error(err) }
+  });
 });
 
 // pagination
