@@ -53,12 +53,22 @@ router.get('/:id/edit', (req, res) => {
 
 // UPDATE (Sequelize) 		--> 		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 router.put('/:id', (req, res) => {
-	Pet.updateAttributes().then(pet => {
-			res.render('pets-show', { pet: pet })
+	const body = req.body;
+	const id = req.params.id;
+	Pet
+		.findById(id)
+		.then(pet => {
+			pet.update(body);
+			// res.render('pets-show', { pet: pet })
 		}).catch(err => {
 			if (err) { console.error(err) }
 		});
+	res.redirect(`/${id}`);
 });
+
+// router.delete('/:id', (req, res) => {
+// 	Pet.findById().then()
+// })
 
 // UPDATE (Sequelize)   	-->   		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 // router.put('/:id', (req, res) => {
