@@ -47,6 +47,10 @@ router.get('/:id/edit', (req, res) => {
     	});
 });
 
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+
 // UPDATE (Sequelize) 		--> 		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 router.put('/:id', (req, res) => {
 	Pet.updateAttributes().then(pet => {
@@ -55,10 +59,6 @@ router.put('/:id', (req, res) => {
 			if (err) { console.error(err) }
 		});
 });
-
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
 
 // UPDATE (Sequelize)   	-->   		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 // router.put('/:id', (req, res) => {
@@ -80,17 +80,17 @@ router.put('/:id', (req, res) => {
 //     	});
 // });
 
-// DESTROY (Sequelize)
-router.delete('/:id', (req, res) => {
-  Pet
-    .destroy({ where: { id: req.params.index } })
-    .then((response) => {
-      if (response.status === 200) { res.redirect('/') }
-    })
-    .catch((err) => {
-      if (err) { res.json(err) }
-  });
-});
+// // DESTROY (Sequelize)
+// router.delete('/:id', (req, res) => {
+//   Pet
+//     .destroy({ where: { id: req.params.index } })
+//     .then((response) => {
+//       if (response.status === 200) { res.redirect('/') }
+//     })
+//     .catch((err) => {
+//       if (err) { res.json(err) }
+//   });
+// });
 
 
 module.exports = router;
