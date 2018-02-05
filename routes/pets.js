@@ -19,64 +19,66 @@ router.get('/new', (req, res) => { res.render('pets-new') });
 
 // CREATE (Sequelize)   	-->   		Create new Pet data; catch errors.
 router.post('/', (req, res) => {
-	let body = req.body;
-  	Pet
-		.create(body)
-		.then(pet => {
+	const body = req.body;
+  	Pet.create(body).then(pet => {
     		res.redirect(`/pets/${pet.id}`);
-  		})
-  		.catch(err => {
+  		}).catch(err => {
     		if (err) { console.error(err) }
   		});
 });
 
 // SHOW (Sequelize)     	-->   		Find Pet datum by ID, then render JSON and template; catch errors.
 router.get('/:id', (req, res) => {
-	let id = req.params.id;
-	Pet
-		.findById(id)
-		.then(pet => {
+	const id = req.params.id;
+	Pet.findById(id).then(pet => {
 			res.render('pets-show', { pet: pet })
-    	})
-    	.catch(err => {
+    	}).catch(err => {
     		if (err) { console.log(err) }
     	})
 });
 
 // EDIT (Sequelize)			--> 		Render Pug editing template; catch errors.
 router.get('/:id/edit', (req, res) => {
-	let body = req.body;
-	Pet
-		.findById()
-		.then(pet => {
+	const body = req.body;
+	Pet.findById().then(pet => {
     		res.render('pets-edit', { pet: body })
-    	})
-    	.catch(err => {
+    	}).catch(err => {
       		if (err) { console.log(err) }
     	});
 });
 
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
-
-// UPDATE (Sequelize)   -->   Update and return Pet datum by ID, then render JSON and redirect to home page; check with catch case.
+// UPDATE (Sequelize) 		--> 		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 router.put('/:id', (req, res) => {
-  const id = req.param.id;
-  const updates = req.param.updates;
-
-  Pet.update(body, { where: { id: id } }).then(pet => {
-      res.json(`\nPET DATA TO BE UPDATED: ${pet}\n`);
-      return pet.updateAttributes(updates);
-    })
-    .then(updatedPet => {
-      res.json(`\nUPDATED PET DATA: ${updatedPet}\n`);
-      if (updatedPet.status === 200) { res.redirect('/') }
-    })
-    .catch(err => {
-      if (err) { res.json(err) }
-    });
+	Pet.updateAttributes().then(pet => {
+			res.render('pets-show', { pet: pet })
+		}).catch(err => {
+			if (err) { console.error(err) }
+		});
 });
+
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+
+// UPDATE (Sequelize)   	-->   		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
+// router.put('/:id', (req, res) => {
+//   	const id = req.param.id;
+//   	const updates = req.param.updates;
+// 	Pet
+// 		.updateAttributes()  
+// 		.update(body, { where: { id: id } })
+// 		.then(pet => {
+//     		res.json(`\nPET DATA TO BE UPDATED: ${pet}\n`);
+//       		return pet.updateAttributes(updates);
+//     	})
+//     	.then(updatedPet => {
+//       		res.json(`\nUPDATED PET DATA: ${updatedPet}\n`);
+//       		if (updatedPet.status === 200) { res.redirect('/') }
+//     	})
+//     	.catch(err => {
+//       		if (err) { res.json(err) }
+//     	});
+// });
 
 // DESTROY (Sequelize)
 router.delete('/:id', (req, res) => {
