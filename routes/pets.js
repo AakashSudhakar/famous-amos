@@ -29,46 +29,62 @@ router.post('/', (req, res) => {
 
 // SHOW (Sequelize)     	-->   		Find Pet datum by ID, then render JSON and template; catch errors.
 router.get('/:id', (req, res) => {
-	const id = req.params.id;
-	Pet.findById(id).then(pet => {
-			res.render('pets-show', { pet: pet })
-    	}).catch(err => {
-    		if (err) { console.log(err) }
-    	})
+	const id = req.params.id + 1;
+	const pet = Pet.findById(id)
+		.then(pet => {
+		res.render('pets-show', { pet: pet })
+    }).catch(err => {
+    	if (err) { console.log(err) }
+    })
 });
 
 // EDIT (Sequelize)			--> 		Render Pug editing template; catch errors.
 router.get('/:id/edit', (req, res) => {
-	const body = req.body;
-	Pet.findById().then(pet => {
-    		res.render('pets-edit', { pet: body })
-    	}).catch(err => {
-      		if (err) { console.log(err) }
-    	});
+	const pet = Pet.findById(req.params.id)
+		.then(pet => {
+    	res.render('pets-edit', { pet: pet })
+    }).catch(err => {
+      	if (err) { console.log(err) }
+    });
 });
-
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------------
 
 // UPDATE (Sequelize) 		--> 		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 router.put('/:id', (req, res) => {
-	const body = req.body;
 	const id = req.params.id;
-	Pet
-		.findById(id)
+	const body = req.body;
+	console.log(id);
+	const pet = Pet.findById(id)
 		.then(pet => {
-			pet.update(body);
-			// res.render('pets-show', { pet: pet })
-		}).catch(err => {
-			if (err) { console.error(err) }
-		});
-	res.redirect(`/${id}`);
+		console.log(pet);
+		pet.update(body);
+		res.redirect(`/pets/${id}`);
+	}).catch(err => {
+		if (err) { console.error(err) }
+	});
 });
 
+router.delete('/:id', (req, res) => {
+	const id = req.params.id;
+	Pet.destroy({ where: { id: id } });
+
+	// Pet.findById(id).destroy().then(() => {
+	// 		res.redirect('/');
+	// 	}).catch(err => {
+	// 		if (err) { console.error(err) }
+	// 	});
+});
+
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
+	
+
 // router.delete('/:id', (req, res) => {
-// 	Pet.findById().then()
-// })
+// 	const id = req.params.id;
+// 	Pet.destroy({ where: { id: id } }).then( res.redirect('/') ).catch(err => {
+// 		if (err) { console.error(err) }
+// 	});
+// });
 
 // UPDATE (Sequelize)   	-->   		Update and return Pet data by ID, then render JSON and redirect to home page; catch errors.
 // router.put('/:id', (req, res) => {
