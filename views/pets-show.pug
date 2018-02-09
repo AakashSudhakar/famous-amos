@@ -13,9 +13,6 @@ block content
             p=pet.description
             .text-right
                 a(href=`/pets/${pet.id}/edit`).btn-link Edit
-                break
-                a(href=`/pets/${pet.id}`).btn-link Delete
-            
             hr
             small.text-muted Comments for #{pet.name}
             form(action=`/pets/${pet.id}/comments` method="POST")

@@ -27,7 +27,7 @@ block content
                 .form-group
                     label Description
                     textarea.form-control(name="description")= pet.description
-                button(type="submit").btn.btn-primary Save
-            .text-right
+            .d-flex.justify-content-between
                 form(action=`/pets/${pet.id}?_method=DELETE`, method="POST")
                     button(type="submit").btn.btn-danger Remove
+                button(type="submit").btn.btn-primary Save

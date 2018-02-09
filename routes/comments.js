@@ -3,12 +3,25 @@ const router = express.Router({mergeParams: true});
 
 let comments = require('../json/comments')
 
+// Write create route! DONE
+  // Copy-paste pets#create route details! 
+  // Change variables - Pet => Comment
+  // require Comment model
+  // make sure Comments table exists (not quickly) 
+    //- body, createdAd, updatedAt, PetId (association)
+  // Debug the inevitable errors! 
+// Show comments on pet-show! 
+// Delete comments on pet-show! 
+
+// ---------------- ZOMBIE BARRICADE ----------------
+
 // CREATE
 router.post('/', (req, res) => {
-    req.flash('info', 'Created post.');
-    comments.unshift(req.body);
-
-    res.redirect('/pets/0');
+  Comment.create(req.body).then(comment => {
+    res.redirect(`/pets/${req.params.petId}`);
+  }).catch(err => {
+    if (err) { console.error(err) }
+  });
 });
 
 // DESTROY
