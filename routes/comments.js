@@ -1,7 +1,21 @@
-const express = require('express');
-const router = express.Router({mergeParams: true});
+/* ================================================================================================= */ 
+/* =================================== INITIALIZERS/DECLARATIONS =================================== */
+/* ================================================================================================= */
 
-let comments = require('../json/comments')
+
+const express = require('express');						// Requires Express.js
+const router = express.Router({mergeParams: true});		// Initializes an Express router
+
+// let comments = require('../json/comments')			  // Requires Comment model from JSON (old)
+
+const Pet = require('../db/models').Pet;             	// Requires Pet model
+const Comment = require('../db/models').Comment;     	// Requires Comment model
+
+
+/* ================================================================================================= */ 
+/* ========================================= RESTFUL ROUTES ======================================== */
+/* ================================================================================================= */
+
 
 // Write create route! DONE
   // Copy-paste pets#create route details! 
@@ -13,21 +27,19 @@ let comments = require('../json/comments')
 // Show comments on pet-show! 
 // Delete comments on pet-show! 
 
-// ---------------- ZOMBIE BARRICADE ----------------
+// --------------------------------------- ZOMBIE BARRICADE ---------------------------------------
 
 // CREATE
 router.post('/', (req, res) => {
-  Comment.create(req.body).then(comment => {
-    res.redirect(`/pets/${req.params.petId}`);
-  }).catch(err => {
-    if (err) { console.error(err) }
-  });
+	Comment.create(req.body).then(comment => {
+    	res.redirect(`/pets/${req.params.petId}`);
+  	}).catch(err => { if (err) { console.error(err) } });
 });
 
 // DESTROY
 router.delete('/:index', (req, res) => {
-  req.flash('info', 'Destroyed post.')
-  res.redirect(`/pets/${req.params.id}`);
+	req.flash('info', 'Destroyed post.')
+  	res.redirect(`/pets/${req.params.id}`);
 });
 
 module.exports = router;

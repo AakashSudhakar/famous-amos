@@ -1,19 +1,64 @@
-const express = require('express');
-const router = express.Router();
+/* ================================================================================================= */ 
+/* =================================== INITIALIZERS/DECLARATIONS =================================== */
+/* ================================================================================================= */
 
-const Pet = require('../db/models').Pet;
+
+const express = require('express');						// Initialize Express
+const router = express.Router();						// Instantiate Express as Router
+
+const Pet = require('../db/models').Pet;				// Require Pet model
+
+
+/* ================================================================================================= */ 
+/* ========================================= RESTFUL ROUTES ======================================== */
+/* ================================================================================================= */
+
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  Pet.findAll().then(pets => {
-    res.render('pets-index', { pets: pets })
-  })
-  .catch(err => {
-    if (err) { console.error(err) }
-  });
+  	Pet.findAll( /* {
+		where: {
+			$or: [
+				{
+					title: {
+						$iLike: `%${req.query.term}%`
+					}
+				},
+				{
+					body: {
+						$iLike: `%${req.query.term}%`
+					}
+				}
+			]
+		}
+	} */ ).then(pets => {
+    	res.render('pets-index', { pets: pets, term: req.query.term })
+  	})
+  	.catch(err => { if (err) { console.error(err) } });
 });
 
-// pagination
+
+// SIMPLE SEARCH BY QUERY
+// models.Post.findAll({
+// 	where: {
+// 	  $or: [ 
+// 		{
+// 		  title: {
+// 			$iLike: "%" + req.query.term + "%"
+// 		  }
+// 		},
+// 		{
+// 		  body: {
+// 		$iLike: "%" + req.query.term + "%"
+// 		  }
+// 			}
+// 	  ]
+// 	}
+//   }).then((posts) => {
+// 		  res.render('index', { posts: posts, term: req.query.term })
+//   })
+
+// PAGINATION
 // router.get('/:page', (req, res) => {
 //   let limit = 50;   // number of records per page
 //   let offset = 0;
